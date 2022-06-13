@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/juliaovod/frontend-project-lvl2#readme",
   "type": "module",
+  "bin": {
+    "gendiff": "src/bin/gendiff.js"
+  },
   "dependencies": {
     "commander": "^9.3.0"
   }
