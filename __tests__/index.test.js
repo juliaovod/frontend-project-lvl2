@@ -1,34 +1,31 @@
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/index.js';
+import parseFile from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-const expectedDiff = `
-{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}`.trim();
+const expectedStylishDiff = parseFile(getFixturePath('diff1.stylish.txt')).trim();
 
-test('gendiff JSON', () => {
+describe('test json files', () => {
   const filepath1 = getFixturePath('file1.json');
   const filepath2 = getFixturePath('file2.json');
 
-  const diff = genDiff(filepath1, filepath2);
-  expect(diff).toBe(expectedDiff);
+  test('format stylish', () => {
+    const actual = genDiff(filepath1, filepath2, 'stylish');
+    expect(actual).toBe(expectedStylishDiff);
+  });
 });
 
-test('gendiff YAML', () => {
+describe('test yaml files', () => {
   const filepath1 = getFixturePath('file1.yaml');
   const filepath2 = getFixturePath('file2.yaml');
 
-  const diff = genDiff(filepath1, filepath2);
-  expect(diff).toBe(expectedDiff);
+  test('format stylish', () => {
+    const actual = genDiff(filepath1, filepath2, 'stylish');
+    expect(actual).toBe(expectedStylishDiff);
+  });
 });

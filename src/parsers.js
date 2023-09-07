@@ -15,6 +15,8 @@ const parseFile = (filepath) => {
       return jsYaml.load(file);
     case '.json':
       return JSON.parse(file);
+    case '.txt':
+      return file.toString();
     default:
       return null;
   }
