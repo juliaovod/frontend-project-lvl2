@@ -12,7 +12,7 @@ program
   .helpOption('-h, --help', 'output usage information')
   .addOption(
     new Option('-f, --format <type>', 'output format')
-      .choices(['stylish', 'plain'])
+      .choices(['stylish', 'plain', 'json'])
       .default('stylish'),
   )
   .action((filepath1, filepath2, options) => {
