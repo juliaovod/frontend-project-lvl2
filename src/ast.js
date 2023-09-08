@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-export const NODE_STATUS = {
-  ADDED: 'ADDED',
-  REMOVED: 'REMOVED',
-  UNMODIFIED: 'UNMODIFIED',
-  UPDATED: 'UPDATED',
+export const diffStatus = {
+  added: 'added',
+  removed: 'removed',
+  unmodified: 'unmodified',
+  updated: 'updated',
 };
 
 const buildAst = (json1, json2) => {
@@ -25,15 +25,15 @@ const buildAst = (json1, json2) => {
             children: iter(oldValue, newValue, [], depth + 1),
           });
         } else {
-          const status = oldValue !== newValue ? NODE_STATUS.UPDATED : NODE_STATUS.UNMODIFIED;
+          const status = oldValue !== newValue ? diffStatus.updated : diffStatus.unmodified;
           accum.push({
             ...node, oldValue, newValue, status,
           });
         }
       } else if (_.hasIn(obj1, key)) {
-        accum.push({ ...node, oldValue, status: NODE_STATUS.REMOVED });
+        accum.push({ ...node, oldValue, status: diffStatus.removed });
       } else {
-        accum.push({ ...node, newValue, status: NODE_STATUS.ADDED });
+        accum.push({ ...node, newValue, status: diffStatus.added });
       }
     }
 

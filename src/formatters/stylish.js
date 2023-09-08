@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NODE_STATUS } from '../ast.js';
+import { diffStatus } from '../ast.js';
 
 const stringify = (value, replacer = ' ', spacesCount = 1, currentDepth = 1) => {
   const iter = (currentValue, depth) => {
@@ -40,14 +40,14 @@ const stylish = (diffAst) => {
       const newValue = stringify(currentNode.newValue, replacer, spacesCount, depth + 1);
 
       switch (status) {
-        case NODE_STATUS.UPDATED:
+        case diffStatus.updated:
           return [
             `${currentIndent}- ${key}: ${oldValue}`,
             `${currentIndent}+ ${key}: ${newValue}`,
           ];
-        case NODE_STATUS.ADDED:
+        case diffStatus.added:
           return `${currentIndent}+ ${key}: ${newValue}`;
-        case NODE_STATUS.REMOVED:
+        case diffStatus.removed:
           return `${currentIndent}- ${key}: ${oldValue}`;
         default:
           return `${currentIndent}  ${key}: ${newValue}`;
