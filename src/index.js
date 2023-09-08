@@ -1,15 +1,25 @@
-import parseFile from './parsers.js';
-import buildAst from './ast.js';
-import getFormatter from './formatters/index.js';
+import { Command, Option } from 'commander';
+import genDiff from './diff.js';
 
-const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
-  const file1 = parseFile(filepath1);
-  const file2 = parseFile(filepath2);
+const program = new Command();
 
-  const tree = buildAst(file1, file2);
-  const formatter = getFormatter(formatName);
+program
+  .name('gendiff')
+  .description('Compares two configuration files and shows a difference.')
+  .version('0.0.1')
+  .argument('<filepath1>')
+  .argument('<filepath2>')
+  .helpOption('-h, --help', 'output usage information')
+  .addOption(
+    new Option('-f, --format <type>', 'output format')
+      .choices(['stylish', 'plain', 'json'])
+      .default('stylish'),
+  )
+  .action((filepath1, filepath2, options) => {
+    const { format: formatName } = options;
+    const diff = genDiff(filepath1, filepath2, formatName);
 
-  return formatter(tree);
-};
+    console.log(diff);
+  });
 
-export default genDiff;
+program.parse();

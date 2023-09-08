@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../src/index.js';
+import genDiff from '../src/diff.js';
 import parseFile from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
