@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../src/diff.js';
+import gendiff from '../src/gendiff.js';
 import parseFile from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,12 +16,12 @@ describe('test json files', () => {
   const filepath2 = getFixturePath('file2.json');
 
   test('format stylish', () => {
-    const actual = genDiff(filepath1, filepath2, 'stylish');
+    const actual = gendiff(filepath1, filepath2, 'stylish');
     expect(actual).toBe(expectedStylishDiff);
   });
 
   test('format plain', () => {
-    const actual = genDiff(filepath1, filepath2, 'plain');
+    const actual = gendiff(filepath1, filepath2, 'plain');
     expect(actual).toBe(expectedPlainDiff);
   });
 });
@@ -31,12 +31,12 @@ describe('test yaml files', () => {
   const filepath2 = getFixturePath('file2.yaml');
 
   test('format stylish', () => {
-    const actual = genDiff(filepath1, filepath2, 'stylish');
+    const actual = gendiff(filepath1, filepath2, 'stylish');
     expect(actual).toBe(expectedStylishDiff);
   });
 
   test('format plain', () => {
-    const actual = genDiff(filepath1, filepath2, 'plain');
+    const actual = gendiff(filepath1, filepath2, 'plain');
     expect(actual).toBe(expectedPlainDiff);
   });
 });
