@@ -8,7 +8,7 @@ export const diffStatus = {
 };
 
 const buildAst = (json1, json2) => {
-  const iter = (obj1, obj2, accum, depth) => {
+  const iter = (obj1, obj2, depth) => {
     const keys = _.sortBy(Object.keys({ ...obj1, ...obj2 }));
 
     return keys.map((key) => {
