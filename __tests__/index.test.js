@@ -40,7 +40,7 @@ describe('test gendiff', () => {
     const actual1 = gendiff(filepath1, filepath2, 'json');
     const actual2 = gendiff(filepath3, filepath4, 'json');
 
-    expect(JSON.parse(actual1)).toEqual(expectedJsonDiff);
-    expect(JSON.parse(actual2)).toEqual(expectedJsonDiff);
+    expect(JSON.parse(actual1)).toStrictEqual(expectedJsonDiff);
+    expect(JSON.parse(actual2)).toStrictEqual(expectedJsonDiff);
   });
 });
