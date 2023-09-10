@@ -7,36 +7,40 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const getFixtureFile = (filename) => parseFile(getFixturePath(filename));
 
-const expectedStylishDiff = parseFile(getFixturePath('diff1.stylish.txt')).trim();
-const expectedPlainDiff = parseFile(getFixturePath('diff1.plain.txt')).trim();
+const expectedStylishDiff = getFixtureFile('diff1.stylish.txt').trim();
+const expectedPlainDiff = getFixtureFile('diff1.plain.txt').trim();
+const expectedJsonDiff = getFixtureFile('diff1.json');
 
-describe('test json files', () => {
+describe('test gendiff', () => {
   const filepath1 = getFixturePath('file1.json');
   const filepath2 = getFixturePath('file2.json');
 
-  test('format stylish', () => {
-    const actual = gendiff(filepath1, filepath2, 'stylish');
-    expect(actual).toBe(expectedStylishDiff);
-  });
-
-  test('format plain', () => {
-    const actual = gendiff(filepath1, filepath2, 'plain');
-    expect(actual).toBe(expectedPlainDiff);
-  });
-});
-
-describe('test yaml files', () => {
-  const filepath1 = getFixturePath('file1.yaml');
-  const filepath2 = getFixturePath('file2.yaml');
+  const filepath3 = getFixturePath('file1.yaml');
+  const filepath4 = getFixturePath('file2.yaml');
 
   test('format stylish', () => {
-    const actual = gendiff(filepath1, filepath2, 'stylish');
-    expect(actual).toBe(expectedStylishDiff);
+    const actual1 = gendiff(filepath1, filepath2, 'stylish');
+    const actual2 = gendiff(filepath3, filepath4, 'stylish');
+
+    expect(actual1).toBe(expectedStylishDiff);
+    expect(actual2).toBe(expectedStylishDiff);
   });
 
-  test('format plain', () => {
-    const actual = gendiff(filepath1, filepath2, 'plain');
-    expect(actual).toBe(expectedPlainDiff);
+  test('format stylish', () => {
+    const actual1 = gendiff(filepath1, filepath2, 'plain');
+    const actual2 = gendiff(filepath3, filepath4, 'plain');
+
+    expect(actual1).toBe(expectedPlainDiff);
+    expect(actual2).toBe(expectedPlainDiff);
+  });
+
+  test('format json', () => {
+    const actual1 = gendiff(filepath1, filepath2, 'json');
+    const actual2 = gendiff(filepath3, filepath4, 'json');
+
+    expect(JSON.parse(actual1)).toEqual(expectedJsonDiff);
+    expect(JSON.parse(actual2)).toEqual(expectedJsonDiff);
   });
 });
