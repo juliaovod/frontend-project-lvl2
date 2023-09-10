@@ -20,7 +20,7 @@ describe('test gendiff', () => {
   const filepath3 = getFixturePath('file1.yaml');
   const filepath4 = getFixturePath('file2.yaml');
 
-  test('format stylish', () => {
+  test('formatter stylish', () => {
     const actual1 = gendiff(filepath1, filepath2, 'stylish');
     const actual2 = gendiff(filepath3, filepath4, 'stylish');
 
@@ -28,7 +28,7 @@ describe('test gendiff', () => {
     expect(actual2).toBe(expectedStylishDiff);
   });
 
-  test('format stylish', () => {
+  test('formatter plain', () => {
     const actual1 = gendiff(filepath1, filepath2, 'plain');
     const actual2 = gendiff(filepath3, filepath4, 'plain');
 
@@ -36,7 +36,7 @@ describe('test gendiff', () => {
     expect(actual2).toBe(expectedPlainDiff);
   });
 
-  test('format json', () => {
+  test('formatter json', () => {
     const actual1 = gendiff(filepath1, filepath2, 'json');
     const actual2 = gendiff(filepath3, filepath4, 'json');
 

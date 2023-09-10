@@ -6,40 +6,50 @@ const stringify = (value) => {
     return '[complex value]';
   }
 
-  if (_.isString(value)) {
-    return `'${value}'`;
-  }
-
-  return `${value}`;
+  return _.isString(value) ? `'${value}'` : `${value}`;
 };
 
 const plain = (diffAst) => {
-  const iter = (tree, depth, paths) => {
-    const lines = tree.flatMap((currentNode) => {
-      const { key, status, children } = currentNode;
+  const makeLine = (node, paths) => {
+    const { status, oldValue, newValue } = node;
 
-      const oldValue = stringify(currentNode.oldValue);
-      const newValue = stringify(currentNode.newValue);
+    const currentPaths = paths.join('.');
+    const value1 = stringify(oldValue);
+    const value2 = stringify(newValue);
+
+    switch (status) {
+      case diffStatus.updated:
+        return `Property '${currentPaths}' was updated. From ${value1} to ${value2}`;
+      case diffStatus.added:
+        return `Property '${currentPaths}' was added with value: ${value2}`;
+      case diffStatus.removed:
+        return `Property '${currentPaths}' was removed`;
+      default:
+        return null;
+    }
+  };
+
+  const iter = (tree, depth, paths) => {
+    const lines = tree.reduce((accum, node) => {
+      const { key, children } = node;
 
       const currentPaths = [...paths, key];
 
       if (children) {
-        return iter(children, depth + 1, currentPaths);
+        accum.push(iter(children, depth + 1, currentPaths));
+        return accum;
       }
 
-      switch (status) {
-        case diffStatus.updated:
-          return `Property '${currentPaths.join('.')}' was updated. From ${oldValue} to ${newValue}`;
-        case diffStatus.added:
-          return `Property '${currentPaths.join('.')}' was added with value: ${newValue}`;
-        case diffStatus.removed:
-          return `Property '${currentPaths.join('.')}' was removed`;
-        default:
-          return null;
-      }
-    });
+      const line = makeLine(node, currentPaths);
 
-    return lines.filter(Boolean).join('\n');
+      if (line) {
+        accum.push(line);
+      }
+
+      return accum;
+    }, []);
+
+    return lines.join('\n');
   };
 
   return iter(diffAst, 1, []);
