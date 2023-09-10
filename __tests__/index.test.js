@@ -21,24 +21,30 @@ describe('test gendiff', () => {
   const filepath4 = getFixturePath('file2.yaml');
 
   test('formatter stylish', () => {
-    const actual1 = gendiff(filepath1, filepath2, 'stylish');
-    const actual2 = gendiff(filepath3, filepath4, 'stylish');
+    const formatter = 'stylish';
+
+    const actual1 = gendiff(filepath1, filepath2, formatter);
+    const actual2 = gendiff(filepath3, filepath4, formatter);
 
     expect(actual1).toBe(expectedStylishDiff);
     expect(actual2).toBe(expectedStylishDiff);
   });
 
   test('formatter plain', () => {
-    const actual1 = gendiff(filepath1, filepath2, 'plain');
-    const actual2 = gendiff(filepath3, filepath4, 'plain');
+    const formatter = 'stylish';
+
+    const actual1 = gendiff(filepath1, filepath2, formatter);
+    const actual2 = gendiff(filepath3, filepath4, formatter);
 
     expect(actual1).toBe(expectedPlainDiff);
     expect(actual2).toBe(expectedPlainDiff);
   });
 
   test('formatter json', () => {
-    const actual1 = gendiff(filepath1, filepath2, 'json');
-    const actual2 = gendiff(filepath3, filepath4, 'json');
+    const formatter = 'json';
+
+    const actual1 = gendiff(filepath1, filepath2, formatter);
+    const actual2 = gendiff(filepath3, filepath4, formatter);
 
     expect(JSON.parse(actual1)).toStrictEqual(expectedJsonDiff);
     expect(JSON.parse(actual2)).toStrictEqual(expectedJsonDiff);
