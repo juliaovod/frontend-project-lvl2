@@ -31,7 +31,7 @@ describe('test gendiff', () => {
   });
 
   test('formatter plain', () => {
-    const formatter = 'stylish';
+    const formatter = 'plain';
 
     const actual1 = gendiff(filepath1, filepath2, formatter);
     const actual2 = gendiff(filepath3, filepath4, formatter);
